@@ -46,6 +46,7 @@ node{
     stage('Publishing Image to DockerHub'){
         echo 'Push docker image to DockerHub'
         DOCKERHUB_CRED = credentials('dockerhub_token')
+        echo $DOCKERHUB_CRED
 
         //withCredentials([usernamePassword(credentialsId: 'dockerHubUser', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
 			sh "docker login -u $DOCKERHUB_CRED_USR -p $DOCKERHUB_CRED_PSW      //$dockerUser -p $dockerPassword"
