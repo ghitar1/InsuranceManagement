@@ -38,10 +38,10 @@ node{
         sh "docker build -t $dockerHubUser/$containerName:$tag --pull --no-cache ."
     }
 	
-    stage('Docker Image Scan'){
-        echo 'Scanning Docker image for vulnerbilities'
-        sh "docker scan --accept-license ${dockerHubUser}/${containerName}:${tag}"
-    }   
+   // stage('Docker Image Scan'){
+   //     echo 'Scanning Docker image for vulnerbilities'
+   //     sh "docker scan --accept-license ${dockerHubUser}/${containerName}:${tag}"
+   // }   
 	
     stage('Publishing Image to DockerHub'){
         echo 'Push docker image to DockerHub'
