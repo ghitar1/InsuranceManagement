@@ -45,13 +45,18 @@ node{
 	
     stage('Publishing Image to DockerHub'){
         echo 'Push docker image to DockerHub'
-        DOCKERHUB_CRED = credentials('dockerhub_token')
-        echo $DOCKERHUB_CRED
+        //environment {
+        //        BITBUCKET_COMMON_CREDS = credentials('jenkins-bitbucket-common-creds')
 
-        //withCredentials([usernamePassword(credentialsId: 'dockerHubUser', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
-			sh "docker login -u $DOCKERHUB_CRED_USR -p $DOCKERHUB_CRED_PSW      //$dockerUser -p $dockerPassword"
+//            }
+  //      DOCKERHUB_CRED = credentials('dockerhub_token')
+    //    echo $DOCKERHUB_CRED
+// withCredentials([usernamePassword(credentialsId: 'dockerHubUser', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub_token', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
+			sh "docker login -u $dockerUser -p $dockerPassword"
 			sh "docker push $dockerUser/$containerName:$tag"
 			echo "Image push complete"
+                 }
     }    
 	
 	stage('Docker Container Deployment'){
