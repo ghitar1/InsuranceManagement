@@ -45,15 +45,12 @@ node{
 	
     stage('Publishing Image to DockerHub'){
         echo 'Push docker image to DockerHub'
-        environment {
-            DOCKERHUB_CRED = credentials('dockerhub_token')
-        }
+        DOCKERHUB_CRED = credentials('dockerhub_token')
+
         //withCredentials([usernamePassword(credentialsId: 'dockerHubUser', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
-        steps {
 			sh "docker login -u $DOCKERHUB_CRED_USR -p $DOCKERHUB_CRED_PSW      //$dockerUser -p $dockerPassword"
 			sh "docker push $dockerUser/$containerName:$tag"
 			echo "Image push complete"
-        } 
     }    
 	
 	stage('Docker Container Deployment'){
