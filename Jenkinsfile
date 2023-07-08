@@ -2,13 +2,13 @@ node{
     
     def mavenHome, mavenCMD, docker, tag, dockerHubUser, containerName, httpPort = ""
     
-    stage('Prepare Environment'){
-        echo 'Initialize Environment'
+    stage('Environment Setup'){
+        echo 'Setting up Environment'
         mavenHome = tool name: 'maven' , type: 'maven'
         mavenCMD = "${mavenHome}/bin/mvn"
-        tag="3.0"
-	dockerHubUser="anujsharma1990"
-	containerName="insure-me"
+        tag="1.0"
+	dockerHubUser="ghitar1"
+	containerName="asi-insurance"
 	httpPort="8081"
     }
     
@@ -25,26 +25,26 @@ node{
         }
     }
     
-    stage('Maven Build'){
+    stage('Build Process'){
         sh "${mavenCMD} clean package"        
     }
     
-    stage('Publish Test Reports'){
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-    }
+    //stage('Publish Test Reports'){
+    //    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+    //}
     
-    stage('Docker Image Build'){
+    stage('Build Docker Image'){
         echo 'Creating Docker image'
         sh "docker build -t $dockerHubUser/$containerName:$tag --pull --no-cache ."
     }
 	
     stage('Docker Image Scan'){
         echo 'Scanning Docker image for vulnerbilities'
-        sh "docker build -t ${dockerHubUser}/insure-me:${tag} ."
+        sh "docker scan --accept-license ${dockerHubUser}/${containerName}:${tag} ."
     }   
 	
     stage('Publishing Image to DockerHub'){
-        echo 'Pushing the docker image to DockerHub'
+        echo 'Push docker image to DockerHub'
         withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
 			sh "docker login -u $dockerUser -p $dockerPassword"
 			sh "docker push $dockerUser/$containerName:$tag"
