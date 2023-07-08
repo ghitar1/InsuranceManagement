@@ -40,7 +40,7 @@ node{
 	
     stage('Docker Image Scan'){
         echo 'Scanning Docker image for vulnerbilities'
-        sh "docker scan --accept-license ${dockerHubUser}/${containerName}:${tag} ."
+        sh "docker scan --accept-license ${dockerHubUser}/${containerName}:${tag}"
     }   
 	
     stage('Publishing Image to DockerHub'){
