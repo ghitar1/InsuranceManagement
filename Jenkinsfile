@@ -40,17 +40,32 @@ node{
         }
     }    
 
-    stage('Deploy using Ansible') {
-        echo 'Run container from EC2 Server'
-        ansiblePlaybook(
-            inventory: '',
-            installation: 'ansible',
-            limit: '',
-            playbook: 'ansible-playbook.yml',
-            extras: ''
-        )
-}
+//    stage('Deploy using Ansible') {
+//        echo 'Run container from EC2 Server'
+//        ansiblePlaybook(
+//            inventory: '',
+//            installation: 'ansible',
+//            limit: '',
+//            playbook: 'ansible-playbook.yml',
+//            extras: ''
+//        )
+//}
 
+stage("DEPLOY CONTAINER"){
+	steps {
+		script {
+				sh """
+				#!/bin/bash
+				sudo ssh -i "derekskey.pem" ec2-user@ec2-54-90-84-162.compute-1.amazonaws.com << EOF
+				sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBPw
+				sudo docker pull $dockerHubUser/$containerName:$tag
+				sudo docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag
+				exit 0
+				<< EOF
+				"""
+			}
+	}
+}
 	
     //stage('Docker Container Deployment'){
 //	sh "docker rm $containerName -f"
