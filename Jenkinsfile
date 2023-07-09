@@ -52,7 +52,7 @@ node{
 //}
 
 stage("DEPLOY CONTAINER"){
-	steps {
+//	steps {
 		script {
 				sh """
 				#!/bin/bash
@@ -64,7 +64,7 @@ stage("DEPLOY CONTAINER"){
 				<< EOF
 				"""
 			}
-	}
+//	}
 }
 	
     //stage('Docker Container Deployment'){
