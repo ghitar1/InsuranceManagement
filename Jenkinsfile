@@ -52,19 +52,17 @@ node{
 //}
 
 stage("DEPLOY CONTAINER"){
-//	steps {
-		script {
-				sh """
-				#!/bin/bash
-				sudo ssh -i "/home/derekmcbridegma/derekskey.pem" ec2-user@ec2-54-90-84-162.compute-1.amazonaws.com << EOF
-				sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBPw
-				sudo docker pull $dockerHubUser/$containerName:$tag
-				sudo docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag
-				exit 0
-				<< EOF
-				"""
-			}
-//	}
+	script {
+		sh """
+		#!/bin/bash
+		sudo ssh -i "/home/derekmcbridegma/derekskey.pem" -S "/bin/bash" ec2-user@ec2-54-90-84-162.compute-1.amazonaws.com << EOF
+		sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBPw
+		sudo docker pull $dockerHubUser/$containerName:$tag
+		sudo docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag
+		exit 0
+		<< EOF
+		"""
+	}
 }
 	
     //stage('Docker Container Deployment'){
