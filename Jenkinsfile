@@ -42,7 +42,7 @@ node{
 
     stage('Deploy') {
         echo 'Start the container on remote'
-        sh "sudo ssh -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162 -p 22 -S /bin/bash; sudo docker run -d --rm -p 8081:8081 --name asi ghitar1/asi-insurance:1.0"
+        sh "sudo ssh -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162 -p 22 -S /bin/bash; sudo docker rm asi -f; sudo docker run -d --rm -p 8081:8081 --name asi ghitar1/asi-insurance:1.0"
         echo 'finished trying ssh'
     }
 
