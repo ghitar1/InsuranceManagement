@@ -42,11 +42,11 @@ node{
 
     stage('Deploy') {
         script {
-            sshagent(credentials : ['derekskey.pem']) {
+            sshagent(credentials : ['derekskey']) {
                 sh "echo pwd"
+            }
         }
     }
-}
 
 //    stage('Deploy using Ansible') {
 //        echo 'Run container from EC2 Server'
