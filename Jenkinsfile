@@ -44,6 +44,8 @@ node{
         script {
             sshagent(credentials : ['derekskey']) {
                 sh "echo pwd"
+                sh 'ssh -t -t ec2-user@ec2-54-90-84-162.compute-1.amazonaws.com -o StrictHostKeyChecking=no'
+                sh "echo docker images"
             }
         }
     }
