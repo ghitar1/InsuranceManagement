@@ -42,7 +42,7 @@ node{
 
     stage('Deploy') {
         echo 'Start the container on remote'
-        sh "ssh -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162; echo docker ps"
+        sh "sudo ssh -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162; echo docker ps"
         echo 'finished trying ssh'
     }
 
