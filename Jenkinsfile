@@ -41,13 +41,9 @@ node{
     }    
 
     stage('Deploy') {
-        script {
-            sshagent(credentials : ['derekskey']) {
-                sh "echo pwd"
-                sh 'ssh -t -t ec2-user@ec2-54-90-84-162.compute-1.amazonaws.com -o StrictHostKeyChecking=no'
-                sh "echo docker images"
-            }
-        }
+        echo 'Start the container on remote'
+        sh "ssh -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162; echo docker ps"
+        echo 'finished trying ssh'
     }
 
 //    stage('Deploy using Ansible') {
