@@ -39,11 +39,23 @@ node{
 		echo "Image push complete"
         }
     }    
+
+    stage('Deploy using Ansible') {
+        echo 'Run container from EC2 Server'
+        ansiblePlaybook(
+            inventory: '',
+            installation: 'ansible',
+            limit: '',
+            playbook: '/ansible-playbook.yml',
+            extras: ''
+        )
+}
+
 	
-    stage('Docker Container Deployment'){
-	sh "docker rm $containerName -f"
-	sh "docker pull $dockerHubUser/$containerName:$tag"
-	sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
-	echo "Application started on port: ${httpPort} (http)"
-    }
+    //stage('Docker Container Deployment'){
+//	sh "docker rm $containerName -f"
+//	sh "docker pull $dockerHubUser/$containerName:$tag"
+//	sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
+//	echo "Application started on port: ${httpPort} (http)"
+//    }
 }
