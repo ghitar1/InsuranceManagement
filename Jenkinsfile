@@ -46,7 +46,7 @@ node{
             inventory: '',
             installation: 'ansible',
             limit: '',
-            playbook: '/ansible-playbook.yml',
+            playbook: 'ansible-playbook.yml',
             extras: ''
         )
 }
