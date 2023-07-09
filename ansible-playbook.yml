@@ -1,6 +1,16 @@
 - name : Configure Docker on EC2 Instances
-  hosts : localhost
+  hosts : 54.90.84.162
   connection : ssh
   tasks : 
+  - name: Docker start
+    command: sudo service docker start
+  - name: user setup
+    command: sudo usermod -aG docker ec2-user
+  - name: Setup permissions
+    command: sudo chmod 777 /var/run/docker.sock
+  - name: Docker login
+    command: docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBPw
+  - name: Docker Image pull
+    command: docker pull ghitar1/asi-insurance:1.0
   - name: Deploy Docker Container
-    command: docker run -itd -p 8084:8081 anujsharma1990/insure-me:3.0
+    command: docker run -d --rm -p 8081:8081 --name asi-insurance ghitar1/asi-insurance:1.0
