@@ -43,8 +43,10 @@ node{
     stage('Deploy') {
         sh '''
             echo "Start the container on remote"
-            sudo ssh -tt -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162 -p 22 -S /bin/sh
+            sudo ssh -tt -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162 -p 22
             sudo docker rm asi -f
+            sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
+            sudo docker pull $dockerHubUser/$containerName:$tag
             sudo docker run -d --rm -p 8081:8081 --name asi ghitar1/asi-insurance:1.0
             echo "finished trying ssh"
         '''
