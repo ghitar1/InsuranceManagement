@@ -44,10 +44,10 @@ node{
         sh '''
             echo "Start the container on remote"
             sudo ssh -t -i /home/derekmcbridegma/derekskey.pem ec2-user@44.212.74.12<<EOT
-            sudo docker rm $containerName:$tag -f
-            sudo docker login -u $dockerHubUser -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
-            sudo docker pull $dockerHubUser/$containerName:$tag
-            sudo docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag
+            sudo docker rm asi -f
+            sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
+            sudo docker pull ghitar1/asi-insurance:1.0
+            sudo docker run -d --rm -p 8081:8081 --name asi ghitar1/asi-insurance:1.0
             exit
             EOT
             echo "finished trying ssh"
