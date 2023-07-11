@@ -43,7 +43,7 @@ node{
     stage('Deploy') {
         sh '''
             echo "Start the container on remote"
-            ssh -t -i /home/derekmcbridegma/derekskey.pem ec2-user@3.86.228.24<<EOT
+            ssh -t -i /home/derekmcbridegma/derekskey.pem -o "StrictHostKeyChecking=no" ec2-user@3.86.228.24<<EOT
             docker stop asi
             docker rmi ghitar1/asi-insurance:1.0 -f
             docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
