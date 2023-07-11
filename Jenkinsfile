@@ -43,64 +43,14 @@ node{
     stage('Deploy') {
         sh '''
             echo "Start the container on remote"
-            sudo ssh -t -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162<<EOT
-            sudo docker rm asi -f
-            sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
+            sudo ssh -t -i /home/derekmcbridegma/derekskey.pem ec2-user@44.212.74.12<<EOT
+            sudo docker rm $containerName:$tag -f
+            sudo docker login -u $dockerHubUser -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
             sudo docker pull $dockerHubUser/$containerName:$tag
-            sudo docker run -d --rm -p 8081:8081 --name asi ghitar1/asi-insurance:1.0
+            sudo docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag
             exit
             EOT
             echo "finished trying ssh"
         '''
     }
-
-//    stage('Deploy') {
-//        sh '''
-//            echo "Start the container on remote"
-//            sudo ssh -tt -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162 -p 22
-//            sudo docker rm asi -f
-//            sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
-//            sudo docker pull $dockerHubUser/$containerName:$tag
-//            sudo docker run -d --rm -p 8081:8081 --name asi ghitar1/asi-insurance:1.0
-//            echo "finished trying ssh"
-//        '''
-//    }
-//    stage('Deploy') {
-//        echo 'Start the container on remote'
-//        sh "sudo ssh -i /home/derekmcbridegma/derekskey.pem ec2-user@54.90.84.162 -p 22 -S /bin/bash, sudo docker rm asi -f, sudo docker run -d --rm -p 8081:8081 --name asi ghitar1/asi-insurance:1.0"
-//        echo 'finished trying ssh'
-//    }
-
-//    stage('Deploy using Ansible') {
-//        echo 'Run container from EC2 Server'
-//        ansiblePlaybook(
-//            inventory: '',
-//            installation: 'ansible',
-//            limit: '',
-//            playbook: 'ansible-playbook.yml',
-//            extras: ''
-//        )
-//}
-
-//stage("DEPLOY CONTAINER"){
-//	script {
-//		sh """
-//		#!/bin/bash
-//		sudo ssh -i "/home/derekmcbridegma/derekskey.pem" ec2-user@ec2-54-90-84-162.compute-1.amazonaws.com -S "/bin/bash" << EOF
-//		sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBPw
-//		sudo docker pull $dockerHubUser/$containerName:$tag
-//		sudo docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag
-//		exit 0
-//		<< EOF
-//		"""
-//	}
-//}
-
-	
-    //stage('Docker Container Deployment'){
-//	sh "docker rm $containerName -f"
-//	sh "docker pull $dockerHubUser/$containerName:$tag"
-//	sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
-//	echo "Application started on port: ${httpPort} (http)"
-//    }
 }
