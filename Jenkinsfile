@@ -44,6 +44,7 @@ node{
         sh '''
             echo "Start the container on remote"
             sudo ssh -t -i /home/derekmcbridegma/derekskey.pem ec2-user@44.212.74.12<<EOT
+            sudo docker stop asi
             sudo docker rmi ghitar1/asi-insurance:1.0 -f
             sudo docker login -u ghitar1 -p dckr_pat_wJKpQ4vpiPFzDRGhyDI653SbBP
             sudo docker pull ghitar1/asi-insurance:1.0
